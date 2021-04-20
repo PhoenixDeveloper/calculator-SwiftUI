@@ -46,7 +46,7 @@ struct ContentView: View {
             
             HStack {
                 Button(action: {
-                    if let value = Double(text) {
+                    if let value = Double(text.replacingOccurrences(of: " ", with: "")) {
                         result = currentAction.execute(result, value)
                         text = ""
                         currentAction = .plus
@@ -61,7 +61,7 @@ struct ContentView: View {
                 .cornerRadius(16)
                 
                 Button(action: {
-                    if let value = Double(text) {
+                    if let value = Double(text.replacingOccurrences(of: " ", with: "")) {
                         result = currentAction.execute(result, value)
                         text = ""
                         currentAction = .minus
@@ -76,7 +76,7 @@ struct ContentView: View {
                 .cornerRadius(16)
                 
                 Button(action: {
-                    if let value = Double(text) {
+                    if let value = Double(text.replacingOccurrences(of: " ", with: "")) {
                         result = currentAction.execute(result, value)
                         text = ""
                         currentAction = .multiply
@@ -91,7 +91,7 @@ struct ContentView: View {
                 .cornerRadius(16)
                 
                 Button(action: {
-                    if let value = Double(text) {
+                    if let value = Double(text.replacingOccurrences(of: " ", with: "")) {
                         result = currentAction.execute(result, value)
                         text = ""
                         currentAction = .division
@@ -107,9 +107,9 @@ struct ContentView: View {
             }
             
             Button(action: {
-                if let value = Double(text) {
+                if let value = Double(text.replacingOccurrences(of: " ", with: "")) {
                     result = currentAction.execute(result, value)
-                    text = result.description
+                    text = numberFormatter().string(from: NSNumber(value: result))!
                     currentAction = .sum
                 }
             }, label: {
@@ -128,6 +128,7 @@ struct ContentView: View {
     func numberFormatter() -> NumberFormatter {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
+        numberFormatter.maximumFractionDigits = 12
         
         numberFormatter.usesGroupingSeparator = true
         numberFormatter.groupingSeparator = " "
